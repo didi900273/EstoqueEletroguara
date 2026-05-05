@@ -129,6 +129,7 @@
               <th>#</th>
               <th>Nome do Item</th>
               <th>Categoria</th>
+              <th>📍 Localização</th>
               <th>Total</th>
               <th>Reservada</th>
               <th>Saldo</th>
@@ -177,6 +178,7 @@
                 <th>Data</th>
                 <th>Item</th>
                 <th>Qtd</th>
+                <th>📍 Local</th>
                 <th>Tipo</th>
                 <th>Obra</th>
                 <th>Funcionário</th>
@@ -278,6 +280,46 @@
         <div class="form-group"><label class="form-label">Unidade</label><input class="form-control" id="item-unidade" placeholder="sacos, kg, m²..."/></div>
       </div>
       <div class="form-group"><label class="form-label">Saldo Mínimo (alerta)</label><input class="form-control" type="number" id="item-minimo" placeholder="Ex: 50" min="0"/></div>
+      <div class="form-group">
+  <label class="form-label">📍 Localização na Prateleira</label>
+  <div class="loc-grid">
+
+    <div>
+      <label class="form-label" style="font-size:11px;color:var(--muted)">Bloco (A–E)</label>
+      <select class="form-control estilo-select" id="item-loc-bloco">
+        <option value="">—</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="form-label" style="font-size:11px;color:var(--muted)">Seção (X–Z)</label>
+      <select class="form-control estilo-select" id="item-loc-secao">
+        <option value="">—</option>
+        <option value="X">X</option>
+        <option value="Y">Y</option>
+        <option value="Z">Z</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="form-label" style="font-size:11px;color:var(--muted)">Nível (01–05)</label>
+      <select class="form-control estilo-select" id="item-loc-nivel">
+        <option value="">—</option>
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+      </select>
+    </div>
+
+  </div>
+</div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal('modal-item')">Cancelar</button>
@@ -503,11 +545,16 @@ function renderEstoque() {
     const badge=s<=0?'<span class="badge badge-red">⛔ Esgotado</span>':
                  (item.minimo>0&&s<=item.minimo)?'<span class="badge badge-yellow">⚠️ Baixo</span>':
                  '<span class="badge badge-green">✅ OK</span>';
+const loc = item.localizacao || {};
+    const locStr = (loc.bloco && loc.secao && loc.nivel)
+      ? `<span class="loc-badge">📍 ${loc.bloco}-${loc.secao}-${loc.nivel}</span>`
+      : `<span style="color:var(--muted);font-size:12px">—</span>`;
     return `<tr>
       <td style="color:var(--muted)">${idx+1}</td>
       <td><strong>${item.nome}</strong></td>
       <td><span class="badge badge-blue">${item.categoria}</span></td>
-      <td>${item.total} <small style="color:var(--muted)">${item.unidade||''}</small></td>
+      <td>${locStr}</td>
+      <td>${item.total}<small style="color:var(--muted)">${item.unidade||''}</small></td>
       <td style="color:${item.reservada>0?'var(--accent)':'var(--muted)'}">${item.reservada} <small>${item.unidade||''}</small></td>
       <td><strong style="color:${bc}">${s}</strong> <small style="color:var(--muted)">${item.unidade||''}</small></td>
       <td><div class="saldo-bar"><div class="saldo-bar-track"><div class="saldo-bar-fill" style="width:${pct}%;background:${bc}"></div></div>
@@ -522,6 +569,9 @@ function renderEstoque() {
 }
 function openNewItem() {
   ['item-id','item-nome','item-cat','item-qtd','item-unidade','item-minimo'].forEach(x=>document.getElementById(x).value='');
+  document.getElementById('item-loc-bloco').value = '';
+  document.getElementById('item-loc-secao').value = '';
+  document.getElementById('item-loc-nivel').value = '';
   document.getElementById('modal-item-title').textContent='Novo Item'; openModal('modal-item');
 }
 function openEditItem(id) {
@@ -529,16 +579,25 @@ function openEditItem(id) {
   document.getElementById('item-id').value=id; document.getElementById('item-nome').value=i.nome;
   document.getElementById('item-cat').value=i.categoria; document.getElementById('item-qtd').value=i.total;
   document.getElementById('item-unidade').value=i.unidade||''; document.getElementById('item-minimo').value=i.minimo||'';
+  const loc = i.localizacao || {};
+  document.getElementById('item-loc-bloco').value = loc.bloco || '';
+  document.getElementById('item-loc-secao').value = loc.secao || '';
+  document.getElementById('item-loc-nivel').value = loc.nivel || '';
   document.getElementById('modal-item-title').textContent='Editar Item'; openModal('modal-item');
 }
 function saveItem() {
   const id=document.getElementById('item-id').value, nome=document.getElementById('item-nome').value.trim();
   const cat=document.getElementById('item-cat').value.trim(), total=parseInt(document.getElementById('item-qtd').value)||0;
   const unidade=document.getElementById('item-unidade').value.trim(), minimo=parseInt(document.getElementById('item-minimo').value)||0;
+  const localizacao = {
+    bloco: document.getElementById('item-loc-bloco').value,
+    secao: document.getElementById('item-loc-secao').value,
+    nivel: document.getElementById('item-loc-nivel').value,
+  };
   if(!nome||!cat||total<0){toast('Preencha todos os campos','error');return;}
   let list=ld(K.e);
-  if(id){list=list.map(x=>x.id===id?{...x,nome,categoria:cat,total,unidade,minimo}:x);toast('Item atualizado!');}
-  else{list.push({id:genId(),nome,categoria:cat,total,reservada:0,unidade,minimo});toast('Item adicionado!');}
+  if(id){list=list.map(x=>x.id===id?{...x,nome,categoria:cat,total,unidade,minimo,localizacao}:x);toast('Item atualizado!');}
+  else{list.push({id:genId(),nome,categoria:cat,total,reservada:0,unidade,minimo,localizacao});toast('Item adicionado!');}
   sv(K.e,list); closeModal('modal-item'); renderEstoque(); renderDashboard();
 }
 function deleteItem(id) {
@@ -564,7 +623,7 @@ function confirmarReserva() {
   let list=ld(K.e); const i=list.find(x=>x.id===id);
   if(qtd>(i.total-i.reservada)){toast('Quantidade maior que o saldo!','error');return;}
   i.reservada+=qtd; sv(K.e,list);
-  logMov({item:i.nome,qtd,tipo:'Reserva',obra,func,unidade:i.unidade});
+logMov({item:i.nome,qtd,tipo:'Reserva',obra,func,unidade:i.unidade,localizacao:i.localizacao});
   closeModal('modal-reserva'); renderEstoque(); renderDashboard();
   toast(`✅ Reserva de ${qtd} ${i.unidade||''} registada!`);
 }
@@ -591,7 +650,7 @@ function confirmarSaida() {
   let list=ld(K.e); const i=list.find(x=>x.id===id);
   if(qtd>i.total){toast('Quantidade maior que o total físico!','error');return;}
   i.total-=qtd; i.reservada=Math.max(0,i.reservada-qtd); sv(K.e,list);
-  logMov({item:i.nome,qtd,tipo:'Saída',obra,func,unidade:i.unidade});
+logMov({item:i.nome,qtd,tipo:'Saída',obra,func,unidade:i.unidade,localizacao:i.localizacao});
   closeModal('modal-saida'); renderEstoque(); renderDashboard();
   toast(`🚚 Saída de ${qtd} ${i.unidade||''} confirmada!`);
 }
@@ -642,7 +701,7 @@ function deleteObra(id){
 // ═══════════════════════════════════════════
 function logMov(m){
   const list=ld(K.m);
-  list.push({id:genId(),data:new Date().toISOString(),item:m.item,qtd:m.qtd,tipo:m.tipo,obra:m.obra,func:m.func,unidade:m.unidade||''});
+  list.push({id:genId(),data:new Date().toISOString(),item:m.item,qtd:m.qtd,tipo:m.tipo,obra:m.obra,func:m.func,unidade:m.unidade||'',localizacao:m.localizacao||null});
   sv(K.m,list);
 }
 function renderMovs(){
@@ -650,12 +709,19 @@ function renderMovs(){
   const list=[...ld(K.m)].reverse().filter(m=>!q||m.item.toLowerCase().includes(q)||(m.obra||'').toLowerCase().includes(q)||(m.func||'').toLowerCase().includes(q));
   const t=document.getElementById('tbody-movs');
   if(!list.length){t.innerHTML='<tr class="empty-row"><td colspan="6">Nenhuma movimentação registada</td></tr>';return;}
-  t.innerHTML=list.map(m=>`<tr>
-    <td>${fmtDate(m.data)}</td><td><strong>${m.item}</strong></td>
-    <td>${m.qtd} <small style="color:var(--muted)">${m.unidade||''}</small></td>
-    <td><span class="badge ${m.tipo==='Saída'?'badge-red':'badge-blue'}">${m.tipo}</span></td>
-    <td>${m.obra||'—'}</td><td>${m.func||'—'}</td>
-  </tr>`).join('');
+t.innerHTML=list.map(m=>{
+    const loc = m.localizacao || {};
+    const locStr = (loc.bloco && loc.secao && loc.nivel)
+      ? `<span class="loc-badge">📍 ${loc.bloco}-${loc.secao}-${loc.nivel}</span>`
+      : `<span style="color:var(--muted);font-size:12px">—</span>`;
+    return `<tr>
+      <td>${fmtDate(m.data)}</td><td><strong>${m.item}</strong></td>
+      <td>${m.qtd} <small style="color:var(--muted)">${m.unidade||''}</small></td>
+      <td>${locStr}</td>
+      <td><span class="badge ${m.tipo==='Saída'?'badge-red':'badge-blue'}">${m.tipo}</span></td>
+      <td>${m.obra||'—'}</td><td>${m.func||'—'}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════

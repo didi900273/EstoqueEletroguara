@@ -282,3 +282,30 @@ tbody tr:hover { background: rgba(255,255,255,.025); }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Localização de Prateleira ── */
+.loc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.loc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #1a1a2e;
+  border: 1px solid #3a3a5c;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #a78bfa;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.loc-badge span {
+  color: #6b7280;
+  font-weight: normal;
+}
