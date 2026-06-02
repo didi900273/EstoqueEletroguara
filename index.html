@@ -3,151 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Estoque SSfirmaA ⚡</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
-    :root{--bg:#0f1117;--surface:#181c27;--surface2:#1f2435;--border:#2a3048;--accent:#f0a500;--accent2:#e05c2a;--green:#2ecc71;--red:#e74c3c;--blue:#3498db;--purple:#9b59b6;--text:#e8eaf0;--muted:#7a82a0;--fd:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--fb);font-size:15px;overflow:hidden}
-    .app{display:flex;height:100vh}
-    .sidebar{width:240px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:relative;overflow:hidden}
-    .sidebar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
-    .logo{padding:22px 20px 18px;border-bottom:1px solid var(--border)}
-    .logo-title{font-family:var(--fd);font-size:20px;font-weight:800;letter-spacing:1px;color:var(--accent);line-height:1.2}
-    .logo-sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:2px;text-transform:uppercase}
-    .logo-sync{margin-top:8px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
-    .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-    nav{flex:1;padding:14px 0;overflow-y:auto}
-    .nav-section{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 20px 5px}
-    .nav-item{display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .18s;border-left:3px solid transparent;user-select:none;text-decoration:none}
-    .nav-item:hover{color:var(--text);background:var(--surface2)}
-    .nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(240,165,0,.07)}
-    .nav-item .icon{font-size:17px;width:22px;text-align:center}
-    .sidebar-footer{padding:14px 20px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
-    .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-    .topbar{height:58px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 26px;flex-shrink:0}
-    .page-title{font-family:var(--fd);font-size:24px;font-weight:700;letter-spacing:.5px}
-    .topbar-actions{display:flex;gap:10px;align-items:center}
-    .content{flex:1;overflow-y:auto;padding:24px}
-    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:6px;border:none;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;letter-spacing:.3px}
-    .btn-primary{background:var(--accent);color:#000}.btn-primary:hover{background:#ffc233}
-    .btn-danger{background:var(--red);color:#fff}.btn-danger:hover{background:#c0392b}
-    .btn-success{background:var(--green);color:#000}.btn-success:hover{background:#27ae60}
-    .btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}.btn-ghost:hover{background:var(--border)}
-    .btn-sm{padding:5px 12px;font-size:12px}
-    .btn-icon{padding:7px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);cursor:pointer;color:var(--muted);font-size:15px;transition:all .15s}
-    .btn-icon:hover{color:var(--text);background:var(--border)}
-    .cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;position:relative;overflow:hidden}
-    .card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-    .card.c-yellow::after{background:var(--accent)}.card.c-green::after{background:var(--green)}.card.c-red::after{background:var(--red)}.card.c-blue::after{background:var(--blue)}.card.c-purple::after{background:var(--purple)}
-    .card-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px}
-    .card-value{font-family:var(--fd);font-size:40px;font-weight:800;line-height:1}
-    .card-sub{font-size:12px;color:var(--muted);margin-top:5px}
-    .card-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:34px;opacity:.12}
-    .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
-    .table-header{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
-    .table-title{font-family:var(--fd);font-size:16px;font-weight:700;letter-spacing:.3px}
-    .search-box{display:flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:7px 12px}
-    .search-box input{background:none;border:none;outline:none;color:var(--text);font-size:13px;font-family:var(--fb);width:180px}
-    .search-box input::placeholder{color:var(--muted)}
-    table{width:100%;border-collapse:collapse}
-    thead{background:var(--surface2)}
-    th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);white-space:nowrap}
-    td{padding:12px 14px;font-size:13px;border-top:1px solid var(--border);vertical-align:middle}
-    tbody tr{transition:background .12s}tbody tr:hover{background:rgba(255,255,255,.025)}
-    .empty-row td{text-align:center;color:var(--muted);font-style:italic;padding:36px}
-    .badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
-    .badge-green{background:rgba(46,204,113,.15);color:var(--green)}.badge-red{background:rgba(231,76,60,.15);color:var(--red)}.badge-yellow{background:rgba(240,165,0,.15);color:var(--accent)}.badge-blue{background:rgba(52,152,219,.15);color:var(--blue)}
-    .loc-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:6px;font-family:monospace;font-size:13px;font-weight:700;letter-spacing:1px}
-    .loc-A{background:rgba(52,152,219,.18);color:#5dade2;border:1px solid rgba(52,152,219,.3)}
-    .loc-B{background:rgba(46,204,113,.18);color:#58d68d;border:1px solid rgba(46,204,113,.3)}
-    .loc-C{background:rgba(240,165,0,.18);color:#f0a500;border:1px solid rgba(240,165,0,.3)}
-    .loc-D{background:rgba(155,89,182,.18);color:#bb8fce;border:1px solid rgba(155,89,182,.3)}
-    .loc-?{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
-    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
-    .modal-overlay.open{opacity:1;pointer-events:all}
-    .modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:500px;max-width:96vw;max-height:92vh;overflow-y:auto;transform:scale(.95) translateY(10px);transition:transform .2s;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-    .modal-overlay.open .modal{transform:scale(1) translateY(0)}
-    .modal-top{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-    .modal-title{font-family:var(--fd);font-size:20px;font-weight:700}
-    .modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:15px}
-    .modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
-    .form-group{display:flex;flex-direction:column;gap:6px}
-    .form-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
-    .form-control{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:10px 13px;color:var(--text);font-family:var(--fb);font-size:14px;outline:none;transition:border-color .15s;width:100%}
-    .form-control:focus{border-color:var(--accent)}.form-control option{background:var(--surface2)}.form-control[readonly]{opacity:.65}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    .saldo-bar{display:flex;flex-direction:column;gap:4px;min-width:100px}
-    .saldo-bar-track{background:var(--surface2);border-radius:3px;height:5px;overflow:hidden}
-    .saldo-bar-fill{height:100%;border-radius:3px;transition:width .4s}
-    .saldo-bar-text{font-size:11px;color:var(--muted)}
-    .page{display:none}.page.active{display:block}
-    .dash-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
-    .activity-list{display:flex;flex-direction:column}
-    .activity-item{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--border)}
-    .activity-item:last-child{border-bottom:none}
-    .activity-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
-    .activity-text{font-size:13px;line-height:1.5}
-    .activity-date{font-size:11px;color:var(--muted);margin-top:2px}
-    .alerts-wrap{display:flex;flex-direction:column;gap:10px}
-    .alert-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:12px}
-    .alert-text{font-size:13px;flex:1}.alert-text strong{color:var(--accent)}
-    .alert-qty{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--red)}
-    /* LOCALIZAÇÃO */
-    .loc-search-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:22px}
-    .loc-search-title{font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:6px}
-    .loc-search-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
-    .loc-search-big{width:100%;background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text);font-family:var(--fb);font-size:16px;outline:none;transition:border-color .2s}
-    .loc-search-big:focus{border-color:var(--accent)}
-    .loc-search-big::placeholder{color:var(--muted)}
-    .loc-result{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-top:16px;display:none}
-    .loc-result.show{display:block}
-    .loc-result-name{font-family:var(--fd);font-size:26px;font-weight:800;margin-bottom:14px}
-    .loc-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .loc-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
-    .loc-box-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:8px}
-    .loc-box-val{font-family:var(--fd);font-size:30px;font-weight:800;line-height:1}
-    .loc-no-result{text-align:center;padding:24px;color:var(--muted);font-size:14px;display:none}
-    .loc-no-result.show{display:block}
-    .zona-map{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
-    .zona-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:14px}
-    .zona-letter{font-family:var(--fd);font-size:40px;font-weight:800;width:50px;text-align:center;flex-shrink:0}
-    .zona-A .zona-letter{color:#5dade2}.zona-B .zona-letter{color:#58d68d}.zona-C .zona-letter{color:var(--accent)}.zona-D .zona-letter{color:#bb8fce}
-    .zona-info-name{font-size:14px;font-weight:600;margin-bottom:3px}
-    .zona-info-desc{font-size:12px;color:var(--muted)}
-    .zona-count{margin-left:auto;font-family:var(--fd);font-size:28px;font-weight:800;color:var(--muted)}
-    /* SHARE */
-    .share-panel{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-    .share-panel-text{flex:1;min-width:200px}
-    .share-panel-title{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:4px}
-    .share-panel-sub{font-size:12px;color:var(--muted);line-height:1.6}
-    .share-panel-actions{display:flex;gap:10px;flex-wrap:wrap}
-    #import-input{display:none}
-    .export-box{background:#0a0d14;border:1px solid var(--border);border-radius:8px;padding:14px;font-family:monospace;font-size:11px;color:#8be08b;max-height:200px;overflow-y:auto;word-break:break-all;line-height:1.6;user-select:all}
-    .modal-wide .modal{width:600px}
-    .toast-wrap{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:10px}
-    .toast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.3);display:flex;align-items:center;gap:10px;animation:slideIn .25s ease;min-width:250px}
-    .toast.success{border-left:3px solid var(--green)}.toast.error{border-left:3px solid var(--red)}
-    @keyframes slideIn{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
-    .actions-cell{display:flex;gap:6px}
-    /* CATEGORIAS */
-    .cat-group{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px}
-    .cat-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;transition:background .15s;user-select:none}
-    .cat-header:hover{background:var(--surface2)}
-    .cat-header-left{display:flex;align-items:center;gap:12px}
-    .cat-arrow{font-size:12px;color:var(--muted);transition:transform .2s;display:inline-block}
-    .cat-name{font-family:var(--fd);font-size:17px;font-weight:700}
-    .cat-count{font-size:12px;color:var(--muted);background:var(--surface2);padding:2px 9px;border-radius:10px;border:1px solid var(--border)}
-    .cat-header-right{font-size:12px}
-    .cat-body table{border-collapse:collapse;width:100%}
-    .cat-body th{padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);background:var(--surface2);border-top:1px solid var(--border)}
-    .cat-body td{padding:11px 14px;font-size:13px;border-top:1px solid var(--border);vertical-align:middle}
-    .cat-body tr:hover{background:rgba(255,255,255,.025)}
-    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-  </style>
+  <title>Estoque Eletroguara ⚡</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 <div class="app">
@@ -167,6 +24,7 @@
       <a class="nav-item" href="#funcionarios"><span class="icon">👷</span> Funcionários</a>
       <a class="nav-item" href="#categorias"><span class="icon">🏷️</span> Categorias</a>
       <div class="nav-section">Extras</div>
+      <a class="nav-item" href="#epis"><span class="icon">🦺</span> EPIs</a>
       <a class="nav-item" href="#compartilhar"><span class="icon">🔗</span> Compartilhar</a>
       <a class="nav-item" href="problemas.html" target="_blank"><span class="icon">🛠️</span> Problemas</a>
     </nav>
@@ -274,6 +132,49 @@
           <div class="search-box" style="flex:1;min-width:200px"><span>🔍</span><input type="text" placeholder="Buscar item dentro das categorias..." id="search-cat" oninput="renderCategorias()"/></div>
         </div>
         <div id="cat-container"></div>
+      </div>
+
+      <!-- EPIs -->
+      <div class="page" id="page-epis">
+
+        <!-- Busca por funcionário -->
+        <div class="epi-search-wrap">
+          <div class="epi-search-title">🦺 Controle de EPIs por Funcionário</div>
+          <div class="epi-search-sub">Digite o nome do funcionário para ver todos os EPIs que ele retirou</div>
+          <div class="epi-search-row">
+            <div class="search-box" style="flex:1">
+              <span>👷</span>
+              <input type="text" id="epi-busca-func" placeholder="Digite o nome do funcionário... Ex: Diego" oninput="renderEpis()"/>
+            </div>
+            <select class="form-control" id="epi-filtro-tipo" onchange="renderEpis()" style="width:180px;padding:7px 12px;font-size:13px">
+              <option value="">Todos os tipos</option>
+              <option value="EPI">Somente EPIs</option>
+              <option value="Material">Material geral</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Resultado por funcionário -->
+        <div id="epi-resultado"></div>
+
+        <!-- Tabela geral -->
+        <div class="table-wrap" style="margin-top:20px">
+          <div class="table-header">
+            <div class="table-title">📋 Histórico Completo de Retiradas</div>
+            <div style="font-size:12px;color:var(--muted)" id="epi-total-label"></div>
+          </div>
+          <table>
+            <thead><tr>
+              <th>Data</th>
+              <th>Funcionário</th>
+              <th>Item Retirado</th>
+              <th>Qtd</th>
+              <th>Tipo</th>
+              <th>Obra</th>
+            </tr></thead>
+            <tbody id="tbody-epis"></tbody>
+          </table>
+        </div>
       </div>
 
       <!-- COMPARTILHAR -->
@@ -395,6 +296,54 @@
   </div>
 </div>
 
+<!-- Modal EPI -->
+<div class="modal-overlay" id="modal-epi">
+  <div class="modal">
+    <div class="modal-top">
+      <div class="modal-title">🦺 Registar Entrega de EPI</div>
+      <button class="btn-icon" onclick="closeModal('modal-epi')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Funcionário *</label>
+          <select class="form-control" id="epi-func-sel"></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Data e Hora *</label>
+          <input class="form-control" type="datetime-local" id="epi-data-input"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Item / EPI Entregue *</label>
+        <input class="form-control" id="epi-item-input" placeholder="Ex: Capacete Amarelo, Luva de Segurança..."/>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Quantidade *</label>
+          <input class="form-control" type="number" id="epi-qtd-input" placeholder="1" min="1"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Unidade</label>
+          <input class="form-control" id="epi-unid-input" placeholder="UN, PAR, KIT..."/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Obra (opcional)</label>
+        <select class="form-control" id="epi-obra-sel"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observação (opcional)</label>
+        <input class="form-control" id="epi-obs-input" placeholder="Ex: Substituição por desgaste, primeiro uso..."/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-epi')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarEntregaEpi()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
@@ -418,9 +367,9 @@ function locCls(loc){const z=getZona(loc);return ['A','B','C','D'].includes(z)?'
   if(!ld(K.o).length)sv(K.o,[{id:genId(),local:'Obra Central – Rua das Flores, 123',responsavel:'João Silva',status:'Ativa'},{id:genId(),local:'Condomínio Bela Vista – Lote 7',responsavel:'Maria Oliveira',status:'Ativa'}]);
   if(!ld(K.f).length)sv(K.f,[{id:genId(),nome:'João Silva',cargo:'Gestor de Obras'},{id:genId(),nome:'Pedro Alves',cargo:'Motorista'},{id:genId(),nome:'Fernanda Costa',cargo:'Almoxarife'}]);
 })();
-const PAGES=['dashboard','estoque','localizacao','categorias','obras','movimentacoes','funcionarios','compartilhar'];
-const TITLES={dashboard:'Dashboard',estoque:'Estoque',localizacao:'Localização',categorias:'Categorias',obras:'Obras',movimentacoes:'Movimentações',funcionarios:'Funcionários',compartilhar:'Compartilhar'};
-const ACTS={estoque:`<button class="btn btn-primary" onclick="openNewItem()">＋ Novo Item</button>`,obras:`<button class="btn btn-primary" onclick="openNewObra()">＋ Nova Obra</button>`,funcionarios:`<button class="btn btn-primary" onclick="openNewFunc()">＋ Novo Funcionário</button>`,movimentacoes:`<button class="btn btn-ghost" onclick="openNewSaidaGeral()">🚚 Nova Saída</button>`,categorias:`<button class="btn btn-ghost" onclick="expandirTodas()">⬇️ Expandir todas</button><button class="btn btn-ghost" onclick="recolherTodas()">⬆️ Recolher todas</button>`};
+const PAGES=['dashboard','estoque','localizacao','categorias','obras','movimentacoes','funcionarios','epis','compartilhar'];
+const TITLES={dashboard:'Dashboard',estoque:'Estoque',localizacao:'Localização',categorias:'Categorias',obras:'Obras',movimentacoes:'Movimentações',funcionarios:'Funcionários',epis:'EPIs',compartilhar:'Compartilhar'};
+const ACTS={estoque:`<button class="btn btn-primary" onclick="openNewItem()">＋ Novo Item</button>`,obras:`<button class="btn btn-primary" onclick="openNewObra()">＋ Nova Obra</button>`,funcionarios:`<button class="btn btn-primary" onclick="openNewFunc()">＋ Novo Funcionário</button>`,movimentacoes:`<button class="btn btn-ghost" onclick="openNewSaidaGeral()">🚚 Nova Saída</button>`,categorias:`<button class="btn btn-ghost" onclick="expandirTodas()">⬇️ Expandir todas</button><button class="btn btn-ghost" onclick="recolherTodas()">⬆️ Recolher todas</button>`,epis:`<button class="btn btn-primary" onclick="openNovaEntregaEpi()">＋ Registar Entrega EPI</button>`};
 function getPage(){const h=location.hash.replace('#','').toLowerCase();return PAGES.includes(h)?h:'estoque';}
 function applyPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
@@ -437,6 +386,7 @@ function renderPage(p){
   if(p==='estoque')renderEstoque();
   if(p==='localizacao')renderLocalizacao();
   if(p==='categorias')renderCategorias();
+  if(p==='epis')renderEpis();
   if(p==='obras')renderObras();
   if(p==='movimentacoes')renderMovs();
   if(p==='funcionarios')renderFuncs();
@@ -676,6 +626,146 @@ function expandirTodas(){
 function recolherTodas(){
   document.querySelectorAll('.cat-body').forEach(b=>b.style.display='none');
   document.querySelectorAll('.cat-arrow').forEach(a=>a.style.transform='rotate(0deg)');
+}
+
+// ═══════════════════════════════════════════
+//  EPIs
+// ═══════════════════════════════════════════
+const K_EPI = 'eo2_epis';
+const ldEpi  = () => { try { return JSON.parse(localStorage.getItem(K_EPI)) || []; } catch { return []; } };
+const svEpi  = v => localStorage.setItem(K_EPI, JSON.stringify(v));
+
+function renderEpis() {
+  const q    = (document.getElementById('epi-busca-func').value || '').toLowerCase().trim();
+  const tipo = document.getElementById('epi-filtro-tipo').value;
+
+  // Combina movimentações normais + registros manuais de EPI
+  const movs = ld(K.m);
+  const epis = ldEpi();
+
+  // Junta tudo numa lista unificada
+  let todos = [
+    ...movs.map(m => ({
+      data: m.data, func: m.func || '—', item: m.item,
+      qtd: m.qtd, unidade: m.unidade || '', obra: m.obra || '—',
+      tipo: 'Movimentação', loc: m.loc || ''
+    })),
+    ...epis.map(e => ({
+      data: e.data, func: e.func, item: e.item,
+      qtd: e.qtd, unidade: e.unidade || '', obra: e.obra || '—',
+      tipo: 'EPI', loc: '', obs: e.obs || ''
+    }))
+  ];
+
+  // Filtros
+  if (q)    todos = todos.filter(r => (r.func||'').toLowerCase().includes(q) || (r.item||'').toLowerCase().includes(q));
+  if (tipo) todos = todos.filter(r => r.tipo === tipo);
+
+  // Ordena por data desc
+  todos.sort((a, b) => new Date(b.data) - new Date(a.data));
+
+  // Label total
+  document.getElementById('epi-total-label').textContent = `${todos.length} registro${todos.length !== 1 ? 's' : ''}`;
+
+  // Tabela geral
+  const t = document.getElementById('tbody-epis');
+  if (!todos.length) {
+    t.innerHTML = '<tr class="empty-row"><td colspan="6">Nenhum registro encontrado</td></tr>';
+  } else {
+    t.innerHTML = todos.map(r => `<tr>
+      <td style="white-space:nowrap;font-size:12px">${fmtDate(r.data)}</td>
+      <td><strong>${r.func}</strong></td>
+      <td>${r.item}${r.loc ? ` <span style="font-family:monospace;font-size:11px;color:var(--accent)">[${r.loc}]</span>` : ''}</td>
+      <td>${r.qtd} <small style="color:var(--muted)">${r.unidade}</small></td>
+      <td><span class="badge ${r.tipo === 'EPI' ? 'badge-purple' : 'badge-blue'}">${r.tipo}</span></td>
+      <td style="font-size:12px;color:var(--muted)">${r.obra}</td>
+    </tr>`).join('');
+  }
+
+  // Card por funcionário se estiver buscando
+  const res = document.getElementById('epi-resultado');
+  if (!q) { res.innerHTML = ''; return; }
+
+  const porFunc = {};
+  todos.forEach(r => {
+    const f = r.func || '—';
+    if (!porFunc[f]) porFunc[f] = [];
+    porFunc[f].push(r);
+  });
+
+  const funcs = Object.keys(porFunc).sort();
+  if (!funcs.length) {
+    res.innerHTML = `<div class="epi-empty-card">😕 Nenhum registro encontrado para <strong>"${q}"</strong></div>`;
+    return;
+  }
+
+  res.innerHTML = funcs.map(func => {
+    const regs = porFunc[func];
+    const totalItens = regs.length;
+    const ultimaData = regs[0] ? fmtDate(regs[0].data) : '—';
+    const rows = regs.map(r => `<tr>
+      <td style="font-size:12px;white-space:nowrap">${fmtDate(r.data)}</td>
+      <td><strong>${r.item}</strong></td>
+      <td>${r.qtd} <small style="color:var(--muted)">${r.unidade}</small></td>
+      <td><span class="badge ${r.tipo === 'EPI' ? 'badge-purple' : 'badge-blue'}">${r.tipo}</span></td>
+      <td style="font-size:12px;color:var(--muted)">${r.obra}</td>
+    </tr>`).join('');
+
+    return `<div class="epi-func-card">
+      <div class="epi-func-header">
+        <div class="epi-func-avatar">${func[0]?.toUpperCase() || '?'}</div>
+        <div>
+          <div class="epi-func-name">${func}</div>
+          <div class="epi-func-sub">${totalItens} retirada${totalItens !== 1 ? 's' : ''} · Última: ${ultimaData}</div>
+        </div>
+      </div>
+      <table style="width:100%">
+        <thead><tr>
+          <th>Data</th><th>Item</th><th>Qtd</th><th>Tipo</th><th>Obra</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+}
+
+function openNovaEntregaEpi() {
+  // Preenche selects
+  fillSel('epi-func-sel', ld(K.f), 'nome');
+  document.getElementById('epi-data-input').value = new Date().toISOString().slice(0, 16);
+  document.getElementById('epi-item-input').value = '';
+  document.getElementById('epi-qtd-input').value = '';
+  document.getElementById('epi-unid-input').value = 'UN';
+  document.getElementById('epi-obs-input').value = '';
+  document.getElementById('epi-obra-sel').innerHTML = '<option value="">Sem obra</option>';
+  ld(K.o).filter(o => o.status === 'Ativa').forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o.local; opt.textContent = o.local;
+    document.getElementById('epi-obra-sel').appendChild(opt);
+  });
+  openModal('modal-epi');
+}
+
+function salvarEntregaEpi() {
+  const func = document.getElementById('epi-func-sel').value;
+  const data = document.getElementById('epi-data-input').value;
+  const item = document.getElementById('epi-item-input').value.trim();
+  const qtd  = parseInt(document.getElementById('epi-qtd-input').value) || 0;
+  const unid = document.getElementById('epi-unid-input').value.trim();
+  const obra = document.getElementById('epi-obra-sel').value;
+  const obs  = document.getElementById('epi-obs-input').value.trim();
+
+  if (!func || !item || qtd <= 0) {
+    toast('Preencha funcionário, item e quantidade', 'error');
+    return;
+  }
+
+  const lista = ldEpi();
+  lista.push({ id: genId(), data: data ? new Date(data).toISOString() : new Date().toISOString(), func, item, qtd, unidade: unid, obra, obs });
+  svEpi(lista);
+  closeModal('modal-epi');
+  renderEpis();
+  toast(`✅ Entrega de EPI registada para ${func}!`);
 }
 
 function exportarDados(){const blob=new Blob([JSON.stringify(getAll(),null,2)],{type:'application/json'});const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:'estoque_'+new Date().toISOString().slice(0,10)+'.json'});a.click();URL.revokeObjectURL(a.href);toast('✅ Exportado!');}
