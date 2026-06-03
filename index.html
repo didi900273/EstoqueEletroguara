@@ -56,7 +56,10 @@
         <div class="table-wrap">
           <div class="table-header">
             <div class="table-title">Inventário de Materiais</div>
-            <div class="search-box"><span>🔍</span><input type="text" placeholder="Pesquisar..." id="search-estoque" oninput="renderEstoque()"/></div>
+            <div class="search-box">
+              <span>🔍</span>
+              <input type="text" placeholder="Pesquisar..." id="search-estoque" oninput="renderEstoque()"/>
+            </div>
           </div>
           <table><thead><tr><th>#</th><th>Nome do Item</th><th>Categoria</th><th>📍 Local</th><th>Total</th><th>Res.</th><th>Saldo</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbody-estoque"></tbody></table>
         </div>
@@ -92,13 +95,25 @@
             <div class="table-title">Todos os Itens por Localização</div>
             <select class="form-control" id="filtro-zona" onchange="renderLocTable()" style="width:auto;padding:7px 12px;font-size:13px">
               <option value="">Todas as zonas</option>
-              <option value="A">Zona A — Esquerda</option>
-              <option value="B">Zona B — Fundo</option>
-              <option value="C">Zona C — Direita</option>
-              <option value="D">Zona D — Chão</option>
+              <option value="X">Zona X — Esquerda</option>
+              <option value="Y">Zona Y — Fundo</option>
+              <option value="Z">Zona Z — Direita</option>
+              <option value="W">Zona W — Atras / Ferramentas</option>
             </select>
           </div>
-          <table><thead><tr><th>Localização</th><th>Nome do Item</th><th>Categoria</th><th>Saldo</th><th>Status</th></tr></thead><tbody id="tbody-loc"></tbody></table>
+          <table>
+            <thead>
+              <tr>
+                <th>Localização</th>
+                <th>Nome do Item</th>
+                <th>Categoria</th>
+                <th>Saldo</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-loc">
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -114,25 +129,53 @@
         <div class="table-wrap">
           <div class="table-header">
             <div class="table-title">Histórico de Movimentações</div>
-            <div class="search-box"><span>🔍</span><input type="text" placeholder="Pesquisar..." id="search-movs" oninput="renderMovs()"/></div>
+            <div class="search-box">
+              <span>🔍</span>
+              <input type="text" placeholder="Pesquisar..." id="search-movs" oninput="renderMovs()"/></div>
           </div>
-          <table><thead><tr><th>Data</th><th>Item</th><th>📍 Local</th><th>Qtd</th><th>Tipo</th><th>Obra</th><th>Funcionário</th></tr></thead><tbody id="tbody-movs"></tbody></table>
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Item</th>
+                <th>📍 Local</th>
+                <th>Qtd</th>
+                <th>Tipo</th>
+                <th>Obra</th>
+                <th>Funcionário</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-movs"></tbody>
+          </table>
         </div>
       </div>
 
       <!-- FUNCIONÁRIOS -->
       <div class="page" id="page-funcionarios">
         <div class="table-wrap"><div class="table-header"><div class="table-title">Cadastro de Funcionários</div></div>
-          <table><thead><tr><th>#</th><th>Nome</th><th>Cargo</th><th>Ações</th></tr></thead><tbody id="tbody-funcs"></tbody></table>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Cargo</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-funcs"></tbody>
+          </table>
         </div>
       </div>
 
       <!-- CATEGORIAS -->
       <div class="page" id="page-categorias">
         <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center">
-          <div class="search-box" style="flex:1;min-width:200px"><span>🔍</span><input type="text" placeholder="Buscar item dentro das categorias..." id="search-cat" oninput="renderCategorias()"/></div>
+          <div class="search-box" style="flex:1;min-width:200px">
+            <span>🔍</span>
+            <input type="text" placeholder="Buscar item dentro das categorias..." id="search-cat" oninput="renderCategorias()"/></div>
         </div>
-        <div id="cat-container"></div>
+        <div id="cat-container">
+        </div>
       </div>
 
       <!-- EPIs -->
